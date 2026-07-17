@@ -1,0 +1,12 @@
+<idea-plugin>
+    <id>org.intellij.sdk.credentials-showcase</id>
+    <name>Credentials Showcase</name>
+
+    <vendor url="https://plugins.jetbrains.com">IntelliJ Platform SDK</vendor>
+
+    <description><![CDATA[
+        Showcase credentials storage and PasswordSafe usage
+        ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+</idea-plugin>

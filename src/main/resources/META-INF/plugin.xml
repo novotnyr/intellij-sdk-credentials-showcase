@@ -9,4 +9,12 @@
         ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="org.intellij.sdk.credentials.CredentialsConfigurable"
+                                 id="org.intellij.sdk.credentials.CredentialsConfigurable"
+                                 displayName="Credentials"
+                                 parentId="tools"
+        />
+    </extensions>
 </idea-plugin>

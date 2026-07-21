@@ -10,3 +10,7 @@ dependencies {
         intellijIdea("2025.3.5")
     }
 }
+
+intellijPlatform {
+    buildSearchableOptions = false
+}

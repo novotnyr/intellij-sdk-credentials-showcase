@@ -16,17 +16,15 @@ typealias ApiKey = String
 
 @Service
 class ApiKeyService {
-    private val passwordSafe get() = PasswordSafe.instance
-
     private val serviceName = generateServiceName(SERVICE_NAME, "API Key")
 
     private val credentialAttributes = CredentialAttributes(serviceName, "API_KEY")
 
     suspend fun save(apiKey: ApiKey) = withContext(Dispatchers.IO) {
-        passwordSafe[credentialAttributes] = Credentials(null, apiKey)
+        PasswordSafe.instance[credentialAttributes] = Credentials(null, apiKey)
     }
 
     suspend fun find(): ApiKey? = withContext(Dispatchers.IO) {
-        passwordSafe[credentialAttributes]?.password?.toString()
+        PasswordSafe.instance[credentialAttributes]?.password?.toString()
     }
 }

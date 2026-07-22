@@ -23,11 +23,13 @@ class CredentialsConfigurable : BoundConfigurable("Credentials") {
 
     override fun apply() {
         super.apply()
-        apiKeyService.save(apiKey)
+        invoke("Securely storing API key") {
+            apiKeyService.save(apiKey)
+        }
     }
 
     override fun reset() {
-        apiKey = runWithModalProgressBlocking(ModalTaskOwner.guess(), "Retrieving API key") {
+        apiKey = invoke("Retrieving API key") {
             apiKeyService.find().orEmpty()
         }
         super.reset()
@@ -36,5 +38,11 @@ class CredentialsConfigurable : BoundConfigurable("Credentials") {
     override fun disposeUIResources() {
         apiKey = ""
         super.disposeUIResources()
+    }
+
+    private fun <T> invoke(title: String, action: suspend () -> T): T {
+        return runWithModalProgressBlocking(ModalTaskOwner.guess(), title) {
+            action()
+        }
     }
 }

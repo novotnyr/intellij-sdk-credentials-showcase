@@ -15,17 +15,15 @@ private const val SERVICE_NAME = "Credentials Showcase"
 typealias ApiKey = String
 
 @Service
-class ApiKeyService(val cs: CoroutineScope) {
+class ApiKeyService {
     private val passwordSafe get() = PasswordSafe.instance
 
     private val serviceName = generateServiceName(SERVICE_NAME, "API Key")
 
     private val credentialAttributes = CredentialAttributes(serviceName, "API_KEY")
 
-    fun save(apiKey: ApiKey) {
-        cs.launch {
-            passwordSafe[credentialAttributes] = Credentials(null, apiKey)
-        }
+    suspend fun save(apiKey: ApiKey) = withContext(Dispatchers.IO) {
+        passwordSafe[credentialAttributes] = Credentials(null, apiKey)
     }
 
     suspend fun find(): ApiKey? = withContext(Dispatchers.IO) {

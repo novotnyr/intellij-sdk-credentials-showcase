@@ -18,7 +18,7 @@ typealias ApiKey = String
 class ApiKeyService {
     private val serviceName = generateServiceName(SERVICE_NAME, "API Key")
 
-    private val credentialAttributes = CredentialAttributes(serviceName, "API_KEY")
+    private val credentialAttributes = CredentialAttributes(serviceName)
 
     suspend fun save(apiKey: ApiKey) = withContext(Dispatchers.IO) {
         PasswordSafe.instance[credentialAttributes] = Credentials(null, apiKey)

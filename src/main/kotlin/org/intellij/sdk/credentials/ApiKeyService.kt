@@ -1,6 +1,7 @@
 package org.intellij.sdk.credentials
 
 import com.intellij.credentialStore.CredentialAttributes
+import com.intellij.credentialStore.Credentials
 import com.intellij.credentialStore.generateServiceName
 import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.components.Service
@@ -19,7 +20,12 @@ class ApiKeyService {
         PasswordSafe.instance[credentialAttributes] = apiKey.toCredentials()
     }
 
-    suspend fun find(): ApiKey = withContext(Dispatchers.IO) {
+    suspend fun find(): ApiKey? = withContext(Dispatchers.IO) {
         PasswordSafe.instance[credentialAttributes].toApiKey()
+    }
+
+    private fun Credentials?.toApiKey(): ApiKey? {
+        return this?.password?.toCharArray()
+            ?.let { ApiKey(it) }
     }
 }
